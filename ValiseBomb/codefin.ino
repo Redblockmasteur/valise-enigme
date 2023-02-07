@@ -18,7 +18,7 @@ int code_fin() {
     state++;
   }
   // Check if the code is correct
-  if (state == 4) {
+  if (state == 5) {
     if (repcode == codeBomb) {
       if ((millis() - lastmillisCode) >= 700) {
         state++;
@@ -47,6 +47,11 @@ void updateCodeFin(char customKey) {
   }
   if (state == 3) {
     lcd_1.setCursor(2, 1);
+    lcd_1.print(customKey);
+    repcode += customKey;
+  }
+  if (state == 4) {
+    lcd_1.setCursor(3, 1);
     lcd_1.print(customKey);
     repcode += customKey;
     lastmillisCode = millis();

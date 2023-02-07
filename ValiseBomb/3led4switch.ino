@@ -1,4 +1,5 @@
-void niveau1() {  ////////////////////////////////////////////////////////////////////////NIVEAU1
+// --NIVEAU1--
+void niveau1() {
   stateButton1 = digitalRead(BUTTON_1);
   stateButton2 = digitalRead(BUTTON_2);
   stateButton3 = digitalRead(BUTTON_3);
@@ -67,7 +68,8 @@ void niveau1() {  //////////////////////////////////////////////////////////////
   memory4 = stateButton4;
 }
 
-void niveau2() {  ////////////////////////////////////////////////////////////////////////NIVEAU2
+// --NIVEAU2--
+void niveau2() {
   stateButton1 = digitalRead(BUTTON_1);
   stateButton2 = digitalRead(BUTTON_2);
   stateButton3 = digitalRead(BUTTON_3);
@@ -205,8 +207,6 @@ void niveau2() {  //////////////////////////////////////////////////////////////
 
   if ((digitalRead(LED_1) == HIGH) && (digitalRead(LED_2) == HIGH) && (digitalRead(LED_3) == HIGH)) {
     digitalWrite(LED_RED, LOW);
-  } else {
-    thief();
   }
   memory1 = stateButton1;
   memory2 = stateButton2;
@@ -214,7 +214,9 @@ void niveau2() {  //////////////////////////////////////////////////////////////
   memory4 = stateButton4;
 }
 
-void niveau3() {  ////////////////////////////////////////////////////////////////////////NIVEAU3
+
+// --NIVEAU3--
+void niveau3() {  
   stateButton1 = digitalRead(BUTTON_1);
   stateButton2 = digitalRead(BUTTON_2);
   stateButton3 = digitalRead(BUTTON_3);
@@ -820,8 +822,6 @@ void niveau3() {  //////////////////////////////////////////////////////////////
   if ((digitalRead(LED_1) == HIGH) && (digitalRead(LED_2) == HIGH) && (digitalRead(LED_3) == HIGH)) {
     digitalWrite(LED_RED, LOW);
     digitalWrite(SENSOR, LOW);
-  } else {
-    thief();
   }
   memory1 = stateButton1;
   memory2 = stateButton2;
@@ -829,20 +829,6 @@ void niveau3() {  //////////////////////////////////////////////////////////////
   memory4 = stateButton4;
 }
 
-void thief() {
-
-  stateSensor = digitalRead(SENSOR);
-  if (stateSensor == LOW) {
-    digitalWrite(LED_GREEN, LOW);
-    digitalWrite(LED_RED, HIGH);
-    tone(BUZZER, 200, 100);
-
-  } else {
-    digitalWrite(LED_GREEN, HIGH);
-    digitalWrite(LED_RED, LOW);
-    noTone(BUZZER);
-  }
-}
 
 void ledswitch() {
   if (stateLevel == 0) {
@@ -853,7 +839,6 @@ void ledswitch() {
     } else if (diff == 3) {
       niveau3();
     }
-    thief();
     if ((digitalRead(LED_1) == HIGH) && (digitalRead(LED_2) == HIGH) && (digitalRead(LED_3) == HIGH)) {
       stateLevel = 1;
     }
@@ -867,8 +852,12 @@ void ledswitch() {
     digitalWrite(LED_1, LOW);
     digitalWrite(LED_2, LOW);
     digitalWrite(LED_3, LOW);
+
     state = 0;
     jeuActuel = 2;
     repcode = "";
+    tone(BUZZER, 900, 600);
+
+    digitalWrite(Electromagnet, LOW); //Electroaimant desactivé
   }
 }

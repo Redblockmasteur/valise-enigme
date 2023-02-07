@@ -1,7 +1,9 @@
 #include <LiquidCrystal_I2C.h>
 #include <Keypad.h>
-
 #include <TM1637Display.h>
+#include "Arduino.h"
+#include "SoftwareSerial.h"
+#include "DFRobotDFPlayerMini.h"
 
 #define CLK 49
 #define DIO 48
@@ -38,11 +40,11 @@ unsigned long startmillis = 0;
 
 #define LED_CARTE 35
 
-#define SENSOR_FERRY 32 // analog en A5 // NOT in use
+#define SENSOR_FERRY 32
 
 #define ELAPSED_TIME 1500
 
-int jeuActuel = 0;  //0 == code début // 1 == 3 led 4switch // 2 == Ferry // == 3 Azimut // 4 == Code fin       // 5 == Victory // 6 == Fail
+int jeuActuel = 0;  //0 == code début // 1 == 3 led 4switch // 2 == Ferry // == 3 Azimut // 4 == Code fin   END_GAME    // 5 == Victoire // 6 == Défaite
 
 int stateButton1;
 int stateButton2;
@@ -65,7 +67,10 @@ unsigned long lastTimeAction;
 unsigned long lastmillis = 0;
 unsigned long lastmillisCode = 0;
 
-//////////////////////////////////:://////////////CODE MORSE
+//Pin Electroaimant
+int Electromagnet = 7;
+
+//CODE MORSE
 LiquidCrystal_I2C lcd_1(0x27, 20, 4);
 int state = 0;  //état machine
 
@@ -74,7 +79,7 @@ int diff = 0;
 const String codeCarteDiff1 = "746";
 const String codeCarteDiff2 = "523";
 const String codeCarteDiff3 = "108";
-const String codeBomb = "030";
+const String codeBomb = "1030";
 
 const String codeLatVille = "40";
 
@@ -91,7 +96,7 @@ String repazimut;
 const int point = 500;  //1000
 const int tiret = point * 3;
 const int spaceL = point * 2;
-const int spaceMot = point * 6;
+const int spaceMot = point * 3;
 const int start = point * 10;
 uint32_t silence = 700;
 
@@ -113,11 +118,25 @@ byte rowPins[ROWS] = { 11, 10, 9, 8 };
 byte colPins[COLS] = { 5, 4, 3 };
 Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
 
+//DF player
+
+bool sireneSound;
+
+
+SoftwareSerial mySoftwareSerial(12, 46);  // TX, RX (12 et 46 sur arduino mega)
+DFRobotDFPlayerMini myDFPlayer;
+void printDetail(uint8_t type, int value);
+
 void setup() {
+  mySoftwareSerial.begin(9600);
+  Serial.begin(9600);
+  pinMode(Electromagnet, OUTPUT);  // Electroaimant comme OUTPUT
+
+
   ////////////////////////3LED/4SWITCH
   display.setBrightness(0x0c);
   display.setSegments(OFF);
-  Serial.begin(9600);
+
   pinMode(LED_CARTE, OUTPUT);
   pinMode(BUTTON_1, INPUT_PULLUP);
   pinMode(BUTTON_2, INPUT_PULLUP);
@@ -132,14 +151,44 @@ void setup() {
   pinMode(SENSOR, INPUT);
   pinMode(SENSOR_FERRY, INPUT);
 
+
   stateLevel = 0;
+
+  digitalWrite(Electromagnet, HIGH);  //Electroaimant activé
+
   ////////////////////////////////CODE MORSE
-  pinMode(13, OUTPUT);  //led rouge
-  pinMode(12, OUTPUT);  //led verte
+  pinMode(30, OUTPUT);  //led rouge
+  pinMode(31, OUTPUT);  //led verte
   lcd_1.init();
   lcd_1.clear();
   lcd_1.setBacklight(0);
   lcd_1.blink();
+
+  Serial.println();
+  Serial.println(F("DFRobot DFPlayer Mini Demo"));
+  Serial.println(F("Initializing DFPlayer ... (May take 3~5 seconds)"));
+
+  if (!myDFPlayer.begin(mySoftwareSerial)) {  //Use softwareSerial to communicate with mp3.
+    Serial.println(F("Unable to begin:"));
+    Serial.println(F("1.Please recheck the connection!"));
+    Serial.println(F("2.Please insert the SD card!"));
+    lcd_1.setBacklight(1);
+    lcd_1.clear();
+    lcd_1.begin(16, 2);
+    lcd_1.setCursor(2, 0);
+    lcd_1.print("DF Player BAD :(");
+    digitalWrite(30, HIGH);
+
+    while (true) {
+      delay(0);  // Code to compatible with ESP8266 watch dog.
+    }
+  }
+
+
+  Serial.println(F("DFPlayer Mini online."));
+  myDFPlayer.volume(30);  //Set volume value. From 0 to 30
+  myDFPlayer.loop(4);     //Play the mp3 (here it's the background sound)
+  Serial.println(F("sound 3 playing"));
 }
 
 void loop() {

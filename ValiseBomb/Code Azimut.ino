@@ -118,11 +118,11 @@ void CodeAzimut() {
   }
   if (diff == 3) {
     if (state < 3) {
-      paris(38);
+      paris(36);
     } else if (state > 3 && state < 7) {
       boston(40);
     } else if (state > 7 && state < 33) {
-      moscow(40);
+      moscow(42);
     }
   }
 }
@@ -130,7 +130,7 @@ void CodeAzimut() {
 
 void paris(int NoOffBeeps) {
   // paris 193
-  uint32_t PARIS[] = { start, point, tiret, tiret, point, spaceL, point, tiret, spaceL, point, tiret, point, spaceL, point, point, spaceL, point, point, point, spaceMot, point, tiret, tiret, tiret, tiret, spaceL, tiret, tiret, tiret, tiret, point, spaceL, point, point, point, tiret, tiret };
+  uint32_t PARIS[] = { start, point, tiret, tiret, point, spaceL, point, tiret, spaceL, point, tiret, point, spaceL, point, point, spaceL, point, point, point, spaceL, point, tiret, tiret, tiret, tiret, spaceL, tiret, tiret, tiret, tiret, point, spaceL, point, point, point, tiret, tiret };
   uint32_t currentMillis = millis();
   static uint8_t index = 0;
   static uint32_t lastMillis;
@@ -166,7 +166,11 @@ void paris(int NoOffBeeps) {
       }
       waitTime = PARIS[index];
       index = (index + 1) % NoOffBeeps;
+      Serial.print("Index : ");
       Serial.println(index);
+      Serial.print("Wait time :");
+      Serial.println(PARIS[index]);
+      
     }
   }
 }
@@ -216,7 +220,7 @@ void shortparis(int NoOffBeeps) {
 
 void boston(int NoOffBeeps) {
   // boston 068
-  uint32_t BOSTON[] = { start, tiret, point, point, point, spaceL, tiret, tiret, tiret, spaceL, point, point, point, spaceL, tiret, spaceL, tiret, tiret, tiret, spaceL, tiret, point, spaceMot, tiret, tiret, tiret, tiret, tiret, spaceL, tiret, point, point, point, point, spaceL, tiret, tiret, tiret, point, point };
+  uint32_t BOSTON[] = { start, tiret, point, point, point, spaceL, tiret, tiret, tiret, spaceL, point, point, point, spaceL, tiret, spaceL, tiret, tiret, tiret, spaceL, tiret, point, spaceL, tiret, tiret, tiret, tiret, tiret, spaceL, tiret, point, point, point, point, spaceL, tiret, tiret, tiret, point, point };
   uint32_t currentMillis = millis();
   static uint8_t index = 0;
   static uint32_t lastMillis;
@@ -303,8 +307,8 @@ void shortboston(int NoOffBeeps) {
 }
 
 void moscow(int NoOffBeeps) {
-  // moscow 253
-  uint32_t MOSCOW[] = { start, tiret, tiret, spaceL, tiret, tiret, tiret, spaceL, point, point, point, spaceL, tiret, point, tiret, point, spaceL, tiret, tiret, tiret, spaceL, point, point, tiret, spaceMot, point, point, tiret, tiret, tiret, spaceL, point, point, point, point, point, spaceL, point, point, point, tiret, tiret };
+  // moscow 253 
+  uint32_t MOSCOW[] = { start, tiret, tiret, spaceL, tiret, tiret, tiret, spaceL, point, point, point, spaceL, tiret, point, tiret, point, spaceL, tiret, tiret, tiret, spaceL, point, point, tiret, spaceL, point, point, tiret, tiret, tiret, spaceL, point, point, point, point, point, spaceL, point, point, point, tiret, tiret };
   uint32_t currentMillis = millis();
   static uint8_t index = 0;
   static uint32_t lastMillis;

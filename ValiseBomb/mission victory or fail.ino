@@ -1,28 +1,12 @@
 void missionfailed() {
-  //char customKey = customKeypad.getKey();
+
   lcd_1.clear();
   lcd_1.setCursor(1, 0);
   lcd_1.print("Mission failed");
   jeuActuel = 6;
-  
-  tone(BUZZER, 500, 200);
-
-  tone(BUZZER, 500, 200);
-
-  tone(BUZZER, 500, 200);
-
-  tone(BUZZER, 800, 150);
-
-  tone(BUZZER, 500, 500);
-
-  tone(BUZZER, 600, 1000);
-/*  lcd_1.print("PRESS ANY KEY");
-  lcd_1.noBlink();
-  if (customKey) {
-    updateCodeDebut(customKey);
-    jeuActuel = 0;
-    state = 0;
-  } */
+  myDFPlayer.volume(30);  //Set volume value. From 0 to 30
+  myDFPlayer.play(2);  //Play the first mp3 (here it's the bomb sound)
+  Serial.println("Df player");
 }
 
 
@@ -33,4 +17,7 @@ void missionVictory(){
   lcd_1.setCursor(4, 1);
   lcd_1.print("good job");
   lcd_1.noBlink();
+  myDFPlayer.volume(20);  //Set volume value. From 0 to 30
+  myDFPlayer.play(1);  //Play the second mp3 (here it's the victory sound)
+  Serial.println("Df player");
 }

@@ -1,6 +1,7 @@
 // This function use is used to play de morse section of the game
 void Updtate_screen_azimut(char customKey) {
 
+  // Débutt azimut 3
   if (state == 0) {
     lcd_1.setCursor(0, 1);
     lcd_1.print(customKey);
