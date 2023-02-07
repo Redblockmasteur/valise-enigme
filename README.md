@@ -11,7 +11,7 @@ La ValiseBomb est un projet Junia Adimaker réalisé sur 3 mois.
 
 ## 🚧 Ce projet n'est pas prêt pour une utilisation par le grand publique. Cependant les condiburtions sont les bienvenues
 
-### The to-do list :
-
+### La to-do list :
 - 👨‍💻 Clareté du code
 - 📖 Documentation
+- 🔊 Identité sonore
