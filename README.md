@@ -9,8 +9,7 @@ La ValiseBomb est un projet Junia Adimaker. Les condiburtions sont les bienvenue
 - Une valise, 3 modes de jeux
 - Opensource
 
-![1675851589802](https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/antoi/Documents/GitHub/valise-enigme/image/README/1675851589802.png)
-
+![Valise_enigme_V2_2023-Feb-08_10-04-29AM-000_CustomizedView11829433762](https://user-images.githubusercontent.com/46867831/217503195-ee3777cf-799d-457b-8833-41d83263f879.png)
 ### La to-do list :
 
 - [X] 👨‍💻 Clareté du code
