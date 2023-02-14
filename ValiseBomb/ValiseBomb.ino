@@ -81,7 +81,6 @@ const String codeCarteDiff2 = "523";
 const String codeCarteDiff3 = "108";
 const String codeBomb = "1030";
 
-const String codeLatVille = "40";
 
 String repcode;
 
